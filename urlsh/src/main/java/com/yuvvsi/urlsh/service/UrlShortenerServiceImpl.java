@@ -28,17 +28,23 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
     }
 
     @Override
-    public UrlMapping shortenUrl(String longUrl, String username) {
+    public UrlMapping shortenUrl(String longUrl, String username, Integer expiryMinutes) {
+
         if (longUrl == null || longUrl.isEmpty()) {
             throw new IllegalArgumentException("URL cannot be null or empty");
         }
+
         String shortCode = generateUniqueShortCode();
 
         UrlMapping mapping = new UrlMapping();
         mapping.setLongUrl(longUrl);
         mapping.setShortCode(shortCode);
-        mapping.setCreatedAt(LocalDateTime.now());
         mapping.setUsername(username);
+        mapping.setCreatedAt(LocalDateTime.now());
+
+        if (expiryMinutes != null) {
+            mapping.setExpiresAt(LocalDateTime.now().plusMinutes(expiryMinutes));
+        }
 
         return urlMappingRepository.save(mapping);
     }

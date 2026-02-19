@@ -17,7 +17,7 @@ public class JwtService {
 
     // 🔐 Secret key (MUST be at least 256 bits for HS256)
     private static final String SECRET_KEY =
-            "bX.....................";
+            "bXktc3VwZXItc2VjcmV0LWtleS1mb3Itand0LXNpZ25pbmctaW4tc3ByaW5nLWJvb3Q=";
     // This is Base64 encoded text. You can change later for production.
 
     // Extract username (email in our case)

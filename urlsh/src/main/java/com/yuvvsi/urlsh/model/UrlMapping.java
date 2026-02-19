@@ -29,4 +29,7 @@ public class UrlMapping {
 
     @Column(name = "username", nullable = false)
     private String username; // who owns this URL
+
+    @Column(name = "expires_at")
+    private LocalDateTime expiresAt;
 }
