@@ -43,6 +43,9 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
         mapping.setCreatedAt(LocalDateTime.now());
 
         if (expiryMinutes != null) {
+            if(expiryMinutes<=0) {
+                throw new IllegalArgumentException(("Expiry must be greater than 0"));
+            }
             mapping.setExpiresAt(LocalDateTime.now().plusMinutes(expiryMinutes));
         }
 
@@ -131,6 +134,15 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
         }).collect(Collectors.toList());
 
         return new UserAnalyticsResponse(totalClicks, urlDetailsList);
+    }
+    @Override
+    public UrlMapping getValidMapping(String shortCode){
+        UrlMapping mapping=urlMappingRepository.findByShortCode(shortCode)
+                .orElseThrow(() -> new RuntimeException("Short URL not found."));
+        if(mapping.getExpiresAt()!=null && mapping.getExpiresAt().isBefore(LocalDateTime.now())){
+            throw new RuntimeException("Link has expired");
+        }
+        return mapping;
     }
 
 }

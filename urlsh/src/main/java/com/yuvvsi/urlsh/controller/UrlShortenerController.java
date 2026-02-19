@@ -48,11 +48,7 @@ public class UrlShortenerController {
             HttpServletRequest request
     ) {
         try {
-            UrlMapping mapping = urlShortenerService.getMapping(shortCode);
-
-            if(mapping.getExpiresAt()!=null && mapping.getExpiresAt().isBefore(LocalDateTime.now())){
-                return ResponseEntity.status(HttpStatus.GONE).build();
-            }
+            UrlMapping mapping = urlShortenerService.getValidMapping(shortCode);
 
             // Record analytics click
             clickService.recordClick(mapping, request);
