@@ -36,6 +36,9 @@ public class AuthController {
     public ResponseEntity<User> registerUser(
             @Valid @RequestBody RegisterRequest request
             ) {
+        System.out.println("Username: "+request.getUsername());
+        System.out.println("Email: "+request.getEmail());
+        System.out.println("Password: "+request.getPassword());
         User registeredUser = userService.registerUser(request);
         return ResponseEntity.ok(registeredUser);
     }

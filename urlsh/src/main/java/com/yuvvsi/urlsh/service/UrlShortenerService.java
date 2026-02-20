@@ -11,7 +11,6 @@ public interface UrlShortenerService {
 
     // Retrieve mapping using short code (used for redirect + analytics logging)
     UrlMapping getMapping(String shortCode);
-    UrlMapping getValidMapping(String shortCode);
 
     // BASIC analytics (you can keep these for internal use)
     long getClickCount(String shortCode);

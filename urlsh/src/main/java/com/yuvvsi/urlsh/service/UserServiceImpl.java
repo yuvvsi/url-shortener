@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserDetailsService {
         User user=new User();
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         // Save the user to the database
         return userRepository.save(user);

@@ -47,13 +47,18 @@ public class UrlShortenerController {
             @PathVariable String shortCode,
             HttpServletRequest request
     ) {
+        System.out.println("Received shortCode: "+shortCode);
         try {
-            UrlMapping mapping = urlShortenerService.getValidMapping(shortCode);
+            UrlMapping mapping = urlShortenerService.getMapping(shortCode);
 
             // Record analytics click
             clickService.recordClick(mapping, request);
+            String longUrl = mapping.getLongUrl();
+            if(!longUrl.startsWith("http://") &&!longUrl.startsWith("https://")){
+                longUrl="https://"+longUrl;
+            }
 
-            URI uri = URI.create(mapping.getLongUrl());
+            URI uri = URI.create(longUrl);
 
             return ResponseEntity.status(HttpStatus.FOUND)
                     .location(uri)

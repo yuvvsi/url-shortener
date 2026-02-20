@@ -52,11 +52,7 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
         return urlMappingRepository.save(mapping);
     }
 
-    @Override
-    public UrlMapping getMapping(String shortCode) {
-        return urlMappingRepository.findByShortCode(shortCode)
-                .orElseThrow(() -> new RuntimeException("Short URL not found"));
-    }
+
 
     // Generate a random 6-character alphanumeric code
     private String generateUniqueShortCode() {
@@ -136,7 +132,9 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
         return new UserAnalyticsResponse(totalClicks, urlDetailsList);
     }
     @Override
-    public UrlMapping getValidMapping(String shortCode){
+    public UrlMapping getMapping(String shortCode){
+        System.out.println("Received shortcode: "+shortCode);
+
         UrlMapping mapping=urlMappingRepository.findByShortCode(shortCode)
                 .orElseThrow(() -> new RuntimeException("Short URL not found."));
         if(mapping.getExpiresAt()!=null && mapping.getExpiresAt().isBefore(LocalDateTime.now())){
